@@ -6,6 +6,7 @@ import { CalendarEvent, Navbar } from '../index';
 import { localizer, getMessagesES } from '../../helpers';
 import { useState } from 'react';
 import { CalendarModal } from '../components/CalendarModal';
+import { useUiStore } from '../../hooks';
 
 const events = [{
   title: 'Cumpleaños del jefe',
@@ -19,12 +20,10 @@ const events = [{
   }
 }]
 
-const onDoubleClick = (event) => {
-  console.log({doubleClick: event});
-}
 
 const onSelect = (event) => {
-  console.log({click: event});
+  /* console.log({click: event}); */
+  
 }
 
 const onViewChanged = (event) => {
@@ -33,7 +32,14 @@ const onViewChanged = (event) => {
 
 export const CalendarPage = () => {
 
+  const {openDateModal, closeDateModal} = useUiStore(); //llamamos la método, cuando hagamos "doble click"
+
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
+
+  const onDoubleClick = ( event ) => {
+    /* console.log({doubleClick: event}); */
+    openDateModal();
+  }
 
   const eventStyleGetter = (event, start, end, isSelected) => {
 
