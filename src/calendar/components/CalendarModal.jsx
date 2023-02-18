@@ -1,10 +1,11 @@
 import { addHours, differenceInSeconds } from 'date-fns';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Modal from 'react-modal';
 /* datePicker */
 import DatePicker, {registerLocale} from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import es from 'date-fns/locale/es'; //esto es el idioma español
+import Swal from 'sweetalert2';
 registerLocale('es', es) // idioma en español
 
 const customStyles = {
@@ -22,6 +23,7 @@ Modal.setAppElement("#root");
 
 export const CalendarModal = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
   const [formValues, setFormValues] = useState({
     title: 'Miguel Martin',
@@ -29,6 +31,14 @@ export const CalendarModal = () => {
     start: new Date(),
     end: addHours(new Date(), 2),
   })
+
+  const titleClass = useMemo(() => {
+    if(!formSubmitted) return ''; //Si el formularioSubmitted no se a disparado, vamos a hacer un return de un string vacío
+    return (formValues.title.length > 0) //si el formValues.title.length es mayor a 0, vamos a regresar el is-valid también un string vacío , caso contrario is-invalid. Este valor se va a memorizar unicamente si el titulo cambia o el formSubmitted cambía.
+        ? ''
+        : 'is-invalid';
+
+  }, [formValues.title, formSubmitted])
 
   const onInputChanged = ({target}) => {
     setFormValues({
@@ -51,12 +61,13 @@ export const CalendarModal = () => {
 
   const onSubmit = () => {
     event.preventDefault();
-  
+    setFormSubmitted(true);//El formluario a sido intentado de postear
+
     const difference = differenceInSeconds(formValues.end, formValues.start);
 
     //condicional si no es un número, o la diferencia es menor a 0 , muestra el error
     if ( isNaN(difference) || difference <= 0) {
-        console.log('Error en fechas');
+        Swal.fire('Fechas incorrectas', 'Revisar las fechas ingresadas', 'error')
         return;
     }
     //Si esto es menor o igual a 0, no va a hacer nada y mostrar un error en pantalla 
@@ -114,7 +125,7 @@ export const CalendarModal = () => {
           <label>Titulo y notas</label>
           <input
             type="text"
-            className="form-control"
+            className={`form-control ${ titleClass }`}
             placeholder="Título del evento"
             name="title"
             autoComplete="off"
