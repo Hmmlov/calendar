@@ -39,8 +39,16 @@ export const CalendarSlice = createSlice({
                 return event;
             }); //regresa un nuevo arreglo basado el retorno de este arreglo "state.events"
         },
+        onDeleteEvent:(state ) => {
+            /* condicional */
+            if( state.activeEvent ) {
+                state.events = state.events.filter( event => event._id !== state.activeEvent._id); // fisicamente eliminarlo del arreglo
+                state.activeEvent = null;
+            }
+            
+        }
     }
 });
 
 // Action creators are generated for each case reducer function
-export const { onSetActiveEvent, onAddNewEvent, onUpdateEvent } = CalendarSlice.actions;
+export const { onSetActiveEvent, onAddNewEvent, onUpdateEvent, onDeleteEvent } = CalendarSlice.actions;
