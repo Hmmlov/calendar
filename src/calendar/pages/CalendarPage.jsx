@@ -1,6 +1,9 @@
+import { Navbar } from '../index';
 
 export const CalendarPage = () => {
   return (
-    <div>CalendarPage</div>
+    <>
+      <Navbar/>
+    </>
   )
 }
