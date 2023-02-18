@@ -10,10 +10,6 @@ import { useUiStore, useCalendarStore } from '../../hooks/index';
 
 
 
-const onSelect = (event) => {
-  console.log({click: event});
-  
-}
 
 const onViewChanged = (event) => {
   localStorage.setItem('lastView', event);
@@ -23,13 +19,19 @@ export const CalendarPage = () => {
 
   const {openDateModal} = useUiStore(); //llamamos la método, cuando hagamos "doble click"
   
-  const { events }  = useCalendarStore(); //nuestros eventos
+  const { events, setActiveEvent }  = useCalendarStore(); //nuestros eventos
 
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
 
   const onDoubleClick = ( event ) => {
     /* console.log({doubleClick: event}); */
     openDateModal();
+  }
+
+  const onSelect = (event) => {
+    /* console.log({click: event}); */
+    setActiveEvent(event); //este es el evento que lo activa
+    
   }
 
   const eventStyleGetter = (event, start, end, isSelected) => {
