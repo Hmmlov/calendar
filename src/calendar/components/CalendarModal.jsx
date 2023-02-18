@@ -91,6 +91,7 @@ export const CalendarModal = () => {
     //Todo: 
     await startSavingEvent( formValues );
     closeDateModal();
+    setFormSubmitted(false) //una vez se graba, regresarlo a su estado
     //Cerrar el modal
     // Remover errores en pantalla
 

@@ -30,9 +30,17 @@ export const CalendarSlice = createSlice({
         onAddNewEvent: (state, {payload}) => {
             state.events.push(payload);
             state.activeEvent = null;
-        }   
+        },
+        onUpdateEvent: (state, { payload } ) => { //estraemos el payload de la acción
+            state.events = state.events.map(event => {
+                if(event._id === payload._id){ //
+                    return payload;
+                }
+                return event;
+            }); //regresa un nuevo arreglo basado el retorno de este arreglo "state.events"
+        },
     }
 });
 
 // Action creators are generated for each case reducer function
-export const { onSetActiveEvent, onAddNewEvent } = CalendarSlice.actions;
+export const { onSetActiveEvent, onAddNewEvent, onUpdateEvent } = CalendarSlice.actions;
