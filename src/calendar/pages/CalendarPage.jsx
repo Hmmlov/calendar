@@ -5,6 +5,7 @@ import { addHours} from 'date-fns'
 import { CalendarEvent, Navbar } from '../index';
 import { localizer, getMessagesES } from '../../helpers';
 import { useState } from 'react';
+import { CalendarModal } from '../components/CalendarModal';
 
 const events = [{
   title: 'Cumpleaños del jefe',
@@ -70,6 +71,7 @@ export const CalendarPage = () => {
         onView={onViewChanged}
       />
 
+      <CalendarModal />
     </>
   )
 }
