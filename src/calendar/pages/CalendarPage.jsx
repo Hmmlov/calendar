@@ -6,23 +6,12 @@ import { CalendarEvent, Navbar } from '../index';
 import { localizer, getMessagesES } from '../../helpers';
 import { useState } from 'react';
 import { CalendarModal } from '../components/CalendarModal';
-import { useUiStore } from '../../hooks';
+import { useUiStore, useCalendarStore } from '../../hooks/index';
 
-const events = [{
-  title: 'Cumpleaños del jefe',
-  notes: 'Hay que comprar el pastel',
-  start: new Date(),//monento en el que nosotros queremos que comience el evento, si es requerido.
-  end: addHours( new Date(), 2 ),
-  bgColor: '#fafafa',
-  user:{
-    _id: '123',
-    name: 'Miguel',
-  }
-}]
 
 
 const onSelect = (event) => {
-  /* console.log({click: event}); */
+  console.log({click: event});
   
 }
 
@@ -32,7 +21,9 @@ const onViewChanged = (event) => {
 
 export const CalendarPage = () => {
 
-  const {openDateModal, closeDateModal} = useUiStore(); //llamamos la método, cuando hagamos "doble click"
+  const {openDateModal} = useUiStore(); //llamamos la método, cuando hagamos "doble click"
+  
+  const { events }  = useCalendarStore(); //nuestros eventos
 
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
 
